@@ -34,6 +34,16 @@ export class TodosAccess {
         const items = result.Items
         return items as TodoItem[]
     }
+
+    async createTodo(item: TodoItem): Promise<TodoItem> {
+        logger.info('Adding todo with info',  item)
+        await this.docClient.put({
+            TableName: this.todosTable,
+            Item: item
+        }).promise()
+
+        return item
+    }
 }
 
 function createDynamoDBClient() {
