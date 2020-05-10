@@ -32,6 +32,11 @@ export async function updateTodoWithIdForUser(request: UpdateTodoRequest, todoId
     return todosAccess.updateTodo(matchingItem, request)
 }
 
+export async function deleteTodoWithIdForUser(todoId: string, userId: string) {
+    const matchingItem = await assertMatchingUser(todoId, userId)
+    return todosAccess.deleteTodo(matchingItem)
+}
+
 async function assertMatchingUser(todoId: string, userId: string): Promise<TodoItem> {
     let item: TodoItem = null
     try {

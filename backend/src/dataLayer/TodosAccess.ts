@@ -91,6 +91,21 @@ export class TodosAccess {
 
         return updatedItem as TodoItem
     }
+
+    async deleteTodo(item: TodoItem) {
+        const { createdAt, todoId } = item
+        logger.info('Delete todo with id',  {todoId})
+        const result = await this.docClient.delete({
+            TableName: this.todosTable,
+            Key: { todoId, createdAt },
+            ReturnValues:"ALL_OLD"
+        }).promise()
+
+        const deletedItem =  result.Attributes 
+        logger.info('Todo deleted',  { item: deletedItem })
+
+        return deletedItem as TodoItem
+    }
 }
 
 function createDynamoDBClient() {
