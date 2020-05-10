@@ -58,16 +58,16 @@ export class TodosAccess {
     }
 
     async createTodo(item: TodoItem): Promise<TodoItem> {
-        logger.info('Adding todo with info',  item)
-        const result = await this.docClient.put({
+        logger.info('Adding todo with info',  {item})
+        // Put operation does not return any value
+        await this.docClient.put({
             TableName: this.todosTable,
-            Item: item
+            Item: item,
         }).promise()
 
-        const createdItem = result.Attributes 
-        logger.info('Todo added',  { item: createdItem })
+        logger.info('Todo added',  { item })
 
-        return createdItem as TodoItem
+        return item
     }
 
     async updateTodo(item: TodoItem, update: TodoUpdate): Promise<TodoItem> {
